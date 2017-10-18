@@ -10,17 +10,6 @@ fi
 
 # non-generic functions
 
-service_connect() {
-  local SERVICE="$1"
-  local SERVICE_ROOT="$PLUGIN_DATA_ROOT/$SERVICE"
-  local SERVICE_NAME="$(get_service_name "$SERVICE")"
-  local DATABASE_NAME="$(get_database_name "$SERVICE")"
-  local SERVICE_TTY_OPTS
-  has_tty && SERVICE_TTY_OPTS="-t"
-
-  docker exec -i $SERVICE_TTY_OPTS "$SERVICE_NAME" psql -h localhost -U postgres "$DATABASE_NAME"
-}
-
 service_add_user() {
   local SERVICE="$1"
   local USER="$2"
@@ -45,6 +34,18 @@ EOF
   fi
   exit $status
 }
+
+service_connect() {
+  local SERVICE="$1"
+  local SERVICE_ROOT="$PLUGIN_DATA_ROOT/$SERVICE"
+  local SERVICE_NAME="$(get_service_name "$SERVICE")"
+  local DATABASE_NAME="$(get_database_name "$SERVICE")"
+  local SERVICE_TTY_OPTS
+  has_tty && SERVICE_TTY_OPTS="-t"
+
+  docker exec -i $SERVICE_TTY_OPTS "$SERVICE_NAME" psql -h localhost -U postgres "$DATABASE_NAME"
+}
+
 
 service_create() {
   local SERVICE="$1"
@@ -158,6 +159,26 @@ service_host() {
 
 service_port() {
   echo "${PLUGIN_DATASTORE_PORTS[0]}"
+}
+
+service_remove_user() {
+  local SERVICE="$1"
+  local USER="$2"
+  local SERVICE_NAME="$(get_service_name "$SERVICE")"
+  [[ -z "$SERVICE" ]] && dokku_log_fail "Please specify a service"
+  [[ -z "$USER" ]] && dokku_log_fail "Please specify a username"
+
+  [[ -n $SSH_TTY ]] && stty -opost
+  docker exec -i "$SERVICE_NAME" vmq-passwd -D "$USER"
+  status=$?
+  [[ -n $SSH_TTY ]] && stty opost
+  if [ $status -eq 0 ]
+    then
+      dokku_log_info2 echo "User $USER removed"
+    else
+      dokku_log_info2 echo "Could not remove user" >&2
+  fi
+  exit $status
 }
 
 service_url() {

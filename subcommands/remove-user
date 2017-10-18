@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+source "$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")/config"
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+source "$PLUGIN_BASE_PATH/common/functions"
+source "$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")/functions"
+
+service-remove-user() {
+  #E Remove a $PLUGIN_COMMAND_PREFIX user named heman
+  #E dokku $PLUGIN_COMMAND_PREFIX:remove-user heman
+  declare desc="Remove a $PLUGIN_SERVICE user"
+  local cmd="$PLUGIN_COMMAND_PREFIX:remove-user" argv=("$@"); [[ ${argv[0]} == "$cmd" ]] && shift 1
+  declare SERVICE="$1" CREATE_FLAGS_LIST="$2"
+
+  service_remove_user "$SERVICE" "${@:2}"
+}
+
+service-remove-user "$@"
