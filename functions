@@ -32,8 +32,8 @@ service_add_user() {
 
   [[ -n $SSH_TTY ]] && stty -opost
   docker exec -i "$SERVICE_NAME" vmq-passwd -c /etc/vernemq/vmq.passwd "$USER" <<EOF
-$password
-$password
+$PASSWORD
+$PASSWORD
 EOF
   status=$?
   [[ -n $SSH_TTY ]] && stty opost
