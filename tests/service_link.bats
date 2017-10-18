@@ -35,7 +35,7 @@ teardown() {
 @test "($PLUGIN_COMMAND_PREFIX:link) error when the service is already linked to app" {
   dokku "$PLUGIN_COMMAND_PREFIX:link" l my_app
   run dokku "$PLUGIN_COMMAND_PREFIX:link" l my_app
-  assert_contains "${lines[*]}" "Already linked as DATABASE_URL"
+  assert_contains "${lines[*]}" "Already linked as VERNEMQ_URL"
   dokku "$PLUGIN_COMMAND_PREFIX:unlink" l my_app
 }
 
