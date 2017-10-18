@@ -576,7 +576,7 @@ service_unlink() {
   local SERVICE_NAME="$(get_service_name "$SERVICE")"
   local EXISTING_CONFIG=$(config_all "$APP")
   local SERVICE_ALIAS=$(service_alias "$SERVICE")
-  local LINK=($(echo "$EXISTING_CONFIG" | grep "$SERVICE_URL" | cut -d: -f1)) || true
+  local LINK=($(echo "$EXISTING_CONFIG" | grep "$SERVICE" | cut -d: -f1)) || true
 
   [[ -z ${LINK[*]} ]] && dokku_log_fail "Not linked to app $APP"
   remove_from_links_file "$SERVICE" "$APP"
