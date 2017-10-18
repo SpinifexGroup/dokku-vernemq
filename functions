@@ -125,6 +125,16 @@ service_start() {
   fi
 }
 
+service_host() {
+  local SERVICE="$1"
+  local SERVICE_ALIAS="$(service_alias "$SERVICE")"
+  echo "$SERVICE_ALIAS"
+}
+
+service_port() {
+  echo "${PLUGIN_DATASTORE_PORTS[0]}"
+}
+
 service_url() {
   local SERVICE="$1"
   local SERVICE_ROOT="$PLUGIN_DATA_ROOT/$SERVICE"

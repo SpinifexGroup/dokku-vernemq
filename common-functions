@@ -292,11 +292,13 @@ service_link() {
   declare desc="Links a service to an application"
   declare SERVICE="$1" APP="$2"
   update_plugin_scheme_for_app "$APP"
+  local SERVICE_HOST=$(service_host "$SERVICE")
+  local SERVICE_PORT=$(service_port "$SERVICE")
   local SERVICE_URL=$(service_url "$SERVICE")
   local SERVICE_NAME="$(get_service_name "$SERVICE")"
   local SERVICE_ROOT="$PLUGIN_DATA_ROOT/$SERVICE"
   local EXISTING_CONFIG=$(config_all "$APP")
-  local LINK=$(echo "$EXISTING_CONFIG" | grep "$SERVICE_URL" | cut -d: -f1) || true
+  local LINK=$(echo "$EXISTING_CONFIG" | grep "$SERVICE_HOST" | cut -d: -f1) || true
   local DEFAULT_ALIAS=$(echo "$EXISTING_CONFIG" | grep "${PLUGIN_DEFAULT_ALIAS}_URL") || true
   local SERVICE_ALIAS=$(service_alias "$SERVICE")
   local LINKS_FILE="$SERVICE_ROOT/LINKS"
@@ -319,7 +321,8 @@ service_link() {
   else
     dokku docker-options:add "$APP" build,deploy,run "--link $SERVICE_NAME:$SERVICE_ALIAS"
   fi
-  config_set "$APP" "${ALIAS}_URL=$SERVICE_URL"
+  config_set "$APP" "${ALIAS}_HOST=$SERVICE_HOST"
+  config_set "$APP" "${ALIAS}_PORT=$SERVICE_PORT"
 }
 
 service_linked_apps() {

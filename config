@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-export VERNEMQ_IMAGE=${POSTGRES_IMAGE:="erlio/docker-vernemq"}
-export VERNEMQ_IMAGE_VERSION=${POSTGRES_IMAGE_VERSION:="latest"}
-export VERNEMQ_ROOT=${POSTGRES_ROOT:="/var/lib/dokku/services/vernemq"}
+export VERNEMQ_IMAGE=${VERNEMQ_IMAGE:="erlio/docker-vernemq"}
+export VERNEMQ_IMAGE_VERSION=${VERNEMQ_IMAGE_VERSION:="latest"}
+export VERNEMQ_ROOT=${VERNEMQ_ROOT:="/var/lib/dokku/services/vernemq"}
 
 export PLUGIN_COMMAND_PREFIX="vernemq"
 export PLUGIN_CONFIG_ROOT=${PLUGIN_CONFIG_ROOT:="$DOKKU_LIB_ROOT/config/$PLUGIN_COMMAND_PREFIX"}
