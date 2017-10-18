@@ -14,11 +14,11 @@ teardown() {
   assert_contains "${lines[*]}" "l     erlio/docker-vernemq:latest  running  -              -"
 }
 
-#@test "($PLUGIN_COMMAND_PREFIX:list) with exposed ports" {
-#  dokku "$PLUGIN_COMMAND_PREFIX:expose" l 4242
-#  run dokku "$PLUGIN_COMMAND_PREFIX:list"
-#  assert_contains "${lines[*]}" "l     postgres:9.6.4  running  5432->4242     -"
-#}
+@test "($PLUGIN_COMMAND_PREFIX:list) with exposed ports" {
+  dokku "$PLUGIN_COMMAND_PREFIX:expose" l 1 2 3
+  run dokku "$PLUGIN_COMMAND_PREFIX:list"
+  assert_contains "${lines[*]}" "l     erlio/docker-vernemq:latest  running  1883->1 8080->2 8883->3"
+}
 
 #@test "($PLUGIN_COMMAND_PREFIX:list) with linked app" {
 #  dokku apps:create my_app
