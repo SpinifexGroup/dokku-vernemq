@@ -31,7 +31,7 @@ service_add_user() {
   [[ -z "$PASSWORD" ]] && dokku_log_fail "Please specify a password"
 
   [[ -n $SSH_TTY ]] && stty -opost
-  docker exec "$SERVICE_NAME" vmq-passwd -c /etc/vernemq/vmq.passwd "$USER" <<EOF
+  docker exec -it "$SERVICE_NAME" vmq-passwd -c /etc/vernemq/vmq.passwd "$USER" <<EOF
 $password
 $password
 EOF
