@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+source "$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")/config"
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+source "$PLUGIN_BASE_PATH/common/functions"
+source "$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")/functions"
+
+service-add-user() {
+  #E Add a $PLUGIN_COMMAND_PREFIX user named heman with password greyskull
+  #E dokku $PLUGIN_COMMAND_PREFIX:add-user lolipop greyskull
+  declare desc="Create a $PLUGIN_SERVICE user"
+  local cmd="$PLUGIN_COMMAND_PREFIX:add-user" argv=("$@"); [[ ${argv[0]} == "$cmd" ]] && shift 1
+  declare SERVICE="$1" CREATE_FLAGS_LIST="$2"
+
+  service_add_user "$SERVICE" "${@:2}"
+}
+
+service-add-user "$@"

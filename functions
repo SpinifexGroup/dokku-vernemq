@@ -21,6 +21,31 @@ service_connect() {
   docker exec -i $SERVICE_TTY_OPTS "$SERVICE_NAME" psql -h localhost -U postgres "$DATABASE_NAME"
 }
 
+service_add_user() {
+  local SERVICE="$1"
+  local USER="$2"
+  local PASSWORD="$3"
+  local SERVICE_NAME="$(get_service_name "$SERVICE")"
+  [[ -z "$SERVICE" ]] && dokku_log_fail "Please specify a service"
+  [[ -z "$USER" ]] && dokku_log_fail "Please specify a username"
+  [[ -z "$PASSWORD" ]] && dokku_log_fail "Please specify a password"
+
+  [[ -n $SSH_TTY ]] && stty -opost
+  docker exec "$SERVICE_NAME" vmq-passwd -c /etc/vernemq/vmq.passwd "$USER" <<EOF
+$password
+$password
+EOF
+  status=$?
+  [[ -n $SSH_TTY ]] && stty opost
+  if [ $status -eq 0 ]
+    then
+      dokku_log_info2 echo "User $USER created"
+    else
+      dokku_log_info2 echo "Could not create file" >&2
+  fi
+  exit $status
+}
+
 service_create() {
   local SERVICE="$1"
   [[ -z "$SERVICE" ]] && dokku_log_fail "Please specify a name for the service"
