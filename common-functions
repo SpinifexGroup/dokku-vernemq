@@ -302,6 +302,8 @@ service_link() {
   local DEFAULT_ALIAS=$(echo "$EXISTING_CONFIG" | grep "${PLUGIN_DEFAULT_ALIAS}_URL") || true
   local SERVICE_ALIAS=$(service_alias "$SERVICE")
   local LINKS_FILE="$SERVICE_ROOT/LINKS"
+  local PASSWORD="$(cat "$SERVICE_ROOT/PASSWORD")"
+  local USER="$(cat "$SERVICE_ROOT/USER")"
 
   [[ -n $LINK ]] && dokku_log_fail "Already linked as $LINK"
   mkdir -p "$SERVICE_ROOT" || dokku_log_fail "Unable to create service directory"
@@ -323,6 +325,8 @@ service_link() {
   fi
   config_set "$APP" "${ALIAS}_HOST=$SERVICE_HOST"
   config_set "$APP" "${ALIAS}_PORT=$SERVICE_PORT"
+  config_set "$APP" "${ALIAS}_USER=$USER"
+  config_set "$APP" "${ALIAS}_PASSWORD=$PASSWORD"
 }
 
 service_linked_apps() {
@@ -590,10 +594,6 @@ service_unlink() {
   fi
   dokku_log_info2 "${EXISTING_CONFIG[*]}"
   dokku_log_info2 "${LINK[@]}"
-  #for i in "${LINK[@]}"
-  #do
-  #    config_unset "$APP" "$i"
-  #done
   config_unset "$APP" "${LINK[*]}"
 }
 

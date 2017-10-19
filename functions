@@ -63,16 +63,19 @@ service_create() {
   mkdir -p "$SERVICE_ROOT/data" || dokku_log_fail "Unable to create service data directory"
   touch "$LINKS_FILE"
   PASSWORD=$(openssl rand -hex 16)
+  USER=$(openssl rand -hex 16)
   if [[ -n "$SERVICE_PASSWORD" ]]; then
     PASSWORD="$SERVICE_PASSWORD"
     dokku_log_warn "Specified password may not be as secure as the auto-generated password"
   fi
   echo "$PASSWORD" > "$SERVICE_ROOT/PASSWORD"
   chmod 640 "$SERVICE_ROOT/PASSWORD"
+  echo "$USER" > "$SERVICE_ROOT/USER"
+  chmod 640 "$SERVICE_ROOT/USER"
 
-  [[ -n "$SERVICE_CUSTOM_ENV" ]] && POSTGRES_CUSTOM_ENV="$SERVICE_CUSTOM_ENV"
-  if [[ -n $POSTGRES_CUSTOM_ENV ]]; then
-    echo "$POSTGRES_CUSTOM_ENV" | tr ';' "\n" > "$SERVICE_ROOT/ENV"
+  [[ -n "$SERVICE_CUSTOM_ENV" ]] && VERNEMQ_CUSTOM_ENV="$SERVICE_CUSTOM_ENV"
+  if [[ -n $VERNEMQ_CUSTOM_ENV ]]; then
+    echo "$VERNEMQ_CUSTOM_ENV" | tr ';' "\n" > "$SERVICE_ROOT/ENV"
   else
     echo "" > "$SERVICE_ROOT/ENV"
   fi
@@ -84,10 +87,14 @@ service_create_container() {
   local SERVICE_ROOT="$PLUGIN_DATA_ROOT/$SERVICE"
   local SERVICE_NAME="$(get_service_name "$SERVICE")"
   local PASSWORD="$(cat "$SERVICE_ROOT/PASSWORD")"
-  local PREVIOUS_ID
+  local USER="$(cat "$SERVICE_ROOT/USER")"
+
+  # Add random user/password to environment, and let the docker image handle the
+  # user creation
+  echo "DOCKER_VERNEMQ_USER_$USER='$PASSWORD'" >> "$SERVICE_ROOT/ENV"
 
   # TODO - handle persistent data (volume mounts)
-  ID=$(docker run --name "$SERVICE_NAME" -d --restart always --label dokku=service --label dokku.service=vernemq "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
+  ID=$(docker run --name "$SERVICE_NAME" -d --restart always --env-file="$SERVICE_ROOT/ENV" --label dokku=service --label dokku.service=vernemq "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
   echo "$ID" > "$SERVICE_ROOT/ID"
 
   dokku_log_verbose_quiet "Waiting for container to be ready"
