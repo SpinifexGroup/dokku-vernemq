@@ -166,7 +166,7 @@ service_host() {
 service_modify_env() {
   local SERVICE="$1"
   local ACTION="$2"
-  local ACTION_KEY_NAME="$3"
+  local ACTION_KEY_NAME="$(echo "$3" | tr /a-z/ /A-Z/)"
   local ACTION_KEY_VALUE="$4"
   local SERVICE_ROOT="$PLUGIN_DATA_ROOT/$SERVICE"
 
