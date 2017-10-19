@@ -588,7 +588,10 @@ service_unlink() {
   else
     dokku docker-options:remove "$APP" build,deploy,run "--link $SERVICE_NAME:$SERVICE_ALIAS"
   fi
-  config_unset "$APP" "${LINK[*]}"
+  for i in "${LINK[@]}"
+  do
+      config_unset "$APP" "$i"
+  done
 }
 
 service_version() {
