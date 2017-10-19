@@ -73,6 +73,7 @@ service_create() {
   echo "$USER" > "$SERVICE_ROOT/USER"
   chmod 640 "$SERVICE_ROOT/USER"
 
+  dokku_log_info2 env
   if [[ -n $VERNEMQ_CUSTOM_ENV ]]; then
     echo "$VERNEMQ_CUSTOM_ENV" | tr ';' "\n" > "$SERVICE_ROOT/ENV"
   else
