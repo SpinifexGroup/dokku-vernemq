@@ -163,6 +163,30 @@ service_host() {
   echo "$SERVICE_ALIAS"
 }
 
+service_modify_env() {
+  local SERVICE="$1"
+  local ACTION="$2"
+  local ACTION_KEY_NAME="$3"
+  local ACTION_KEY_VALUE="$4"
+
+  [[ -z "$SERVICE" ]] && dokku_log_fail "Please specify a service"
+  [[ -z "$ACTION" ]] && local CURRENT_ENV="$(cat "$SERVICE_ROOT/ENV")" && dokku_log_info2 "$CURRENT_ENV" && exit
+  if [ "$ACTION" == "set" ]; then
+    [[ -z "$ACTION_KEY_NAME" ]] && dokku_log_fail "Please specify an environment variable key"
+    [[ -z "$ACTION_KEY_VALUE" ]] && dokku_log_fail "Please specify a value for the key '$ACTION_KEY_NAME'"
+    sed -i "/$ACTION_KEY_NAME=/d" "$SERVICE_ROOT/ENV"
+    echo "$ACTION_KEY_NAME=$ACTION_KEY_VALUE" >> "$SERVICE_ROOT/ENV"
+    # Remove existing entry for key if any, and replace with new setting
+  elif [ "$ACTION" == "unset" ]; then
+    [[ -z "$ACTION_KEY_NAME" ]] && dokku_log_fail "Please specify an environment variable key"
+    # Remove existing entry
+    sed -i "/$ACTION_KEY_NAME=/d" "$SERVICE_ROOT/ENV"
+  else
+    dokku_log_fail "Unsupported action '$ACTION', must be 'set' or 'unset'"
+  fi
+}
+
+
 service_port() {
   echo "${PLUGIN_DATASTORE_PORTS[0]}"
 }
