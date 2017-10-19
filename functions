@@ -82,7 +82,7 @@ service_create_container() {
   echo "DOCKER_VERNEMQ_USER_$USER=$PASSWORD" >> "$SERVICE_ROOT/ENV"
 
   # TODO - handle persistent data (volume mounts)
-  ID=$(docker run --name "$SERVICE_NAME" -d --restart always -v "$SERVICE_ROOT/data:/var/lib/vernemq" --env-file="$SERVICE_ROOT/ENV" --label dokku=service --label dokku.service=vernemq "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
+  ID=$(docker run --name "$SERVICE_NAME" -d --restart always -v "$SERVICE_ROOT/data:/var/lib/vernemq" -v "$SERVICE_ROOT/config:/etc/vernemq" --env-file="$SERVICE_ROOT/ENV" --label dokku=service --label dokku.service=vernemq "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
   echo "$ID" > "$SERVICE_ROOT/ID"
 
   dokku_log_verbose_quiet "Waiting for container to be ready"
