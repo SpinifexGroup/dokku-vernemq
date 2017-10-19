@@ -49,6 +49,7 @@ service_create() {
 
   mkdir -p "$SERVICE_ROOT" || dokku_log_fail "Unable to create service directory"
   mkdir -p "$SERVICE_ROOT/data" || dokku_log_fail "Unable to create service data directory"
+  mkdir -p "$SERVICE_ROOT/config" || dokku_log_fail "Unable to create service config directory"
   touch "$LINKS_FILE"
   PASSWORD=$(openssl rand -hex 16)
   USER=$(openssl rand -hex 16)
@@ -81,7 +82,7 @@ service_create_container() {
   echo "DOCKER_VERNEMQ_USER_$USER=$PASSWORD" >> "$SERVICE_ROOT/ENV"
 
   # TODO - handle persistent data (volume mounts)
-  ID=$(docker run --name "$SERVICE_NAME" -d --restart always --env-file="$SERVICE_ROOT/ENV" --label dokku=service --label dokku.service=vernemq "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
+  ID=$(docker run --name "$SERVICE_NAME" -d --restart always -v "$SERVICE_ROOT/data:/var/lib/vernemq" -v "$SERVICE_ROOT/config:/etc/vernemq" --env-file="$SERVICE_ROOT/ENV" --label dokku=service --label dokku.service=vernemq "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
   echo "$ID" > "$SERVICE_ROOT/ID"
 
   dokku_log_verbose_quiet "Waiting for container to be ready"
