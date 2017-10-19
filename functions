@@ -73,7 +73,6 @@ service_create() {
   echo "$USER" > "$SERVICE_ROOT/USER"
   chmod 640 "$SERVICE_ROOT/USER"
 
-  [[ -n "$SERVICE_CUSTOM_ENV" ]] && VERNEMQ_CUSTOM_ENV="$SERVICE_CUSTOM_ENV"
   if [[ -n $VERNEMQ_CUSTOM_ENV ]]; then
     echo "$VERNEMQ_CUSTOM_ENV" | tr ';' "\n" > "$SERVICE_ROOT/ENV"
   else
@@ -91,7 +90,7 @@ service_create_container() {
 
   # Add random user/password to environment, and let the docker image handle the
   # user creation
-  echo "DOCKER_VERNEMQ_USER_$USER='$PASSWORD'" >> "$SERVICE_ROOT/ENV"
+  echo "DOCKER_VERNEMQ_USER_$USER=$PASSWORD" >> "$SERVICE_ROOT/ENV"
 
   # TODO - handle persistent data (volume mounts)
   ID=$(docker run --name "$SERVICE_NAME" -d --restart always --env-file="$SERVICE_ROOT/ENV" --label dokku=service --label dokku.service=vernemq "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
