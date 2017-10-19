@@ -594,7 +594,7 @@ service_unlink() {
   #do
   #    config_unset "$APP" "$i"
   #done
-  config_unset "${LINK[*]}"
+  config_unset "$APP" "${LINK[*]}"
 }
 
 service_version() {
