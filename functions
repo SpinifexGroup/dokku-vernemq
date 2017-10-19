@@ -35,18 +35,6 @@ EOF
   exit $status
 }
 
-service_connect() {
-  local SERVICE="$1"
-  local SERVICE_ROOT="$PLUGIN_DATA_ROOT/$SERVICE"
-  local SERVICE_NAME="$(get_service_name "$SERVICE")"
-  local DATABASE_NAME="$(get_database_name "$SERVICE")"
-  local SERVICE_TTY_OPTS
-  has_tty && SERVICE_TTY_OPTS="-t"
-
-  docker exec -i $SERVICE_TTY_OPTS "$SERVICE_NAME" psql -h localhost -U postgres "$DATABASE_NAME"
-}
-
-
 service_create() {
   local SERVICE="$1"
   [[ -z "$SERVICE" ]] && dokku_log_fail "Please specify a name for the service"
@@ -103,33 +91,6 @@ service_create_container() {
   service_info "$SERVICE"
 }
 
-service_export() {
-  local SERVICE="$1"
-  local SERVICE_ROOT="$PLUGIN_DATA_ROOT/$SERVICE"
-  local SERVICE_NAME="$(get_service_name "$SERVICE")"
-  local DATABASE_NAME="$(get_database_name "$SERVICE")"
-  local PASSWORD="$(cat "$SERVICE_ROOT/PASSWORD")"
-
-  [[ -n $SSH_TTY ]] && stty -opost
-  docker exec "$SERVICE_NAME" env PGPASSWORD="$PASSWORD" pg_dump -Fc --no-acl --no-owner -h localhost -U postgres -w "$DATABASE_NAME"
-  status=$?
-  [[ -n $SSH_TTY ]] && stty opost
-  exit $status
-}
-
-service_import() {
-  local SERVICE="$1"
-  SERVICE_ROOT="$PLUGIN_DATA_ROOT/$SERVICE"
-  SERVICE_NAME="$(get_service_name "$SERVICE")"
-  DATABASE_NAME="$(get_database_name "$SERVICE")"
-  PASSWORD="$(cat "$SERVICE_ROOT/PASSWORD")"
-
-  if [[ -t 0 ]]; then
-    dokku_log_fail "No data provided on stdin."
-  fi
-  docker exec -i "$SERVICE_NAME" env PGPASSWORD="$PASSWORD" pg_restore -h localhost -cO -d "$DATABASE_NAME" -U postgres -w
-}
-
 service_start() {
   local SERVICE="$1"
   local QUIET="$2"
@@ -162,31 +123,6 @@ service_host() {
   local SERVICE_ALIAS="$(service_alias "$SERVICE")"
   echo "$SERVICE_ALIAS"
 }
-
-service_modify_env() {
-  local SERVICE="$1"
-  local ACTION="$2"
-  local ACTION_KEY_NAME="$(echo "$3" | tr /a-z/ /A-Z/)"
-  local ACTION_KEY_VALUE="$4"
-  local SERVICE_ROOT="$PLUGIN_DATA_ROOT/$SERVICE"
-
-  [[ -z "$SERVICE" ]] && dokku_log_fail "Please specify a service"
-  [[ -z "$ACTION" ]] && local CURRENT_ENV="$(cat "$SERVICE_ROOT/ENV")" && dokku_log_info2 "$CURRENT_ENV" && exit
-  if [ "$ACTION" == "set" ]; then
-    [[ -z "$ACTION_KEY_NAME" ]] && dokku_log_fail "Please specify an environment variable key"
-    [[ -z "$ACTION_KEY_VALUE" ]] && dokku_log_fail "Please specify a value for the key '$ACTION_KEY_NAME'"
-    sed -i "/$ACTION_KEY_NAME=/d" "$SERVICE_ROOT/ENV"
-    echo "$ACTION_KEY_NAME=$ACTION_KEY_VALUE" >> "$SERVICE_ROOT/ENV"
-    # Remove existing entry for key if any, and replace with new setting
-  elif [ "$ACTION" == "unset" ]; then
-    [[ -z "$ACTION_KEY_NAME" ]] && dokku_log_fail "Please specify an environment variable key"
-    # Remove existing entry
-    sed -i "/$ACTION_KEY_NAME=/d" "$SERVICE_ROOT/ENV"
-  else
-    dokku_log_fail "Unsupported action '$ACTION', must be 'set' or 'unset'"
-  fi
-}
-
 
 service_port() {
   echo "${PLUGIN_DATASTORE_PORTS[0]}"
