@@ -590,10 +590,11 @@ service_unlink() {
   fi
   dokku_log_info2 "${EXISTING_CONFIG[*]}"
   dokku_log_info2 "${LINK[@]}"
-  for i in "${LINK[@]}"
-  do
-      config_unset "$APP" "$i"
-  done
+  #for i in "${LINK[@]}"
+  #do
+  #    config_unset "$APP" "$i"
+  #done
+  config_unset "${LINK[*]}"
 }
 
 service_version() {
