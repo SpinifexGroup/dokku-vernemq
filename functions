@@ -168,6 +168,7 @@ service_modify_env() {
   local ACTION="$2"
   local ACTION_KEY_NAME="$3"
   local ACTION_KEY_VALUE="$4"
+  local SERVICE_ROOT="$PLUGIN_DATA_ROOT/$SERVICE"
 
   [[ -z "$SERVICE" ]] && dokku_log_fail "Please specify a service"
   [[ -z "$ACTION" ]] && local CURRENT_ENV="$(cat "$SERVICE_ROOT/ENV")" && dokku_log_info2 "$CURRENT_ENV" && exit
