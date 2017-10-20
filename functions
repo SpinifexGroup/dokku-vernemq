@@ -87,6 +87,7 @@ service_create_container() {
   # the config file, and then put it into the host mount. This will allow us to
   # spin up the REAL container with the config
   docker run --name "$SERVICE_TEMPLATE_NAME" -d --env-file="$SERVICE_ROOT/ENV" "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION" &> /dev/null
+  # shellcheck disable=SC2086
   docker cp $SERVICE_TEMPLATE_NAME:/etc/vernemq/. $SERVICE_ROOT/config &> /dev/null
   docker rm --force "$SERVICE_TEMPLATE_NAME" &> /dev/null
 

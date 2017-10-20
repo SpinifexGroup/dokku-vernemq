@@ -162,7 +162,6 @@ service_info() {
 service_link() {
   declare desc="Links a service to an application"
   declare SERVICE="$1" APP="$2"
-  update_plugin_scheme_for_app "$APP"
   local SERVICE_HOST=$(service_host "$SERVICE")
   local SERVICE_PORT=$(service_port "$SERVICE")
   local SERVICE_NAME="$(get_service_name "$SERVICE")"
@@ -414,7 +413,6 @@ service_stop() {
 service_unlink() {
   declare desc="Unlinks an application from a service"
   declare SERVICE="$1" APP="$2"
-  update_plugin_scheme_for_app "$APP"
   local SERVICE_NAME="$(get_service_name "$SERVICE")"
   local EXISTING_CONFIG=$(config_all "$APP")
   local SERVICE_ALIAS=$(service_alias "$SERVICE")

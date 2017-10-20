@@ -9,6 +9,9 @@ if [[ $ECHO_DOCKER_COMMAND == "true" ]]; then
 fi
 
 case "$1" in
+  cp)
+    echo "cp called with $@"
+    ;;
   exec)
     echo "exec called with $@"
     ;;
