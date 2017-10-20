@@ -87,7 +87,7 @@ service_create_container() {
   # the config file, and then put it into the host mount. This will allow us to
   # spin up the REAL container with the config
   docker run --name "$SERVICE_TEMPLATE_NAME" -d --env-file="$SERVICE_ROOT/ENV" "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION"
-  docker cp "$SERVICE_TEMPLATE_NAME:/etc/vernemq/* $SERVICE_ROOT/config/"
+  docker cp $SERVICE_TEMPLATE_NAME:/etc/vernemq/* $SERVICE_ROOT/config/
   docker rm --force "$SERVICE_TEMPLATE_NAME"
 
   ID=$(docker run --name "$SERVICE_NAME" -d --restart always -v "$SERVICE_ROOT/data:/var/lib/vernemq" -v "$SERVICE_ROOT/config:/etc/vernemq" --env-file="$SERVICE_ROOT/ENV" --label dokku=service --label dokku.service=vernemq "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
