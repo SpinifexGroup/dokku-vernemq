@@ -20,12 +20,12 @@ command  | description
 --|--
 ```vernemq:add-user <service> [--create-flags...]   ```   | Create a Vernemq user
 ```vernemq:create <service> [--create-flags...]     ```   | create a Vernemq service
-```vernemq:destroy <service> [-f|--force]           ```   | delete the Vernemq service/data/container if there are no links left
+`vernemq:destroy <service> [-f\|--force]`              | delete the Vernemq service/data/container if there are no links left
 ```vernemq:enter <service>                          ```   | enter or run a command in a running Vernemq service container
 ```vernemq:expose <service> <ports...>              ```   | expose a Vernemq service on custom port if provided (random port otherwise)
 ```vernemq:link <service> <app>                     ```   | link the Vernemq service to the app
 ```vernemq:list                                     ```   | list all Vernemq services
-```vernemq:logs <service> [-t|--tail]               ```   | print the most recent log(s) for this service
+`vernemq:logs <service> [-t\|--tail]               `   | print the most recent log(s) for this service
 ```vernemq:remove-user <service> [--create-flags...]```   | Remove a Vernemq user
 ```vernemq:restart <service>                        ```   | graceful shutdown and restart of the Vernemq service container
 ```vernemq:start <service>                          ```   | start a previously stopped Vernemq service
