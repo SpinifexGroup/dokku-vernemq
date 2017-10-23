@@ -19,24 +19,22 @@ sudo dokku plugin:install https://github.com/SpinifexGroup/dokku-vernemq
 ```
 
 ## commands
-
-command  | description  
---|--
-```vernemq:add-user <service> [--create-flags...]   ```   | Create a Vernemq user
-```vernemq:create <service> [--create-flags...]     ```   | Create a Vernemq service
-```vernemq:destroy <service> [-f\|--force]           ```   | Delete the Vernemq service/data/container if there are no links left
-```vernemq:enter <service>                          ```   | Enter or run a command in a running Vernemq service container
-```vernemq:expose <service> <ports...>              ```   | Expose a Vernemq service on custom port if provided (random port otherwise)
-```vernemq:link <service> <app>                     ```   | Link the Vernemq service to the app
-```vernemq:list                                     ```   | List all Vernemq services
-```vernemq:logs <service> [-t\|--tail]               ```   | Print the most recent log(s) for this service
-```vernemq:remove-user <service> [--create-flags...]```   | Remove a Vernemq user
-```vernemq:restart <service>                        ```   | Graceful shutdown and restart of the Vernemq service container
-```vernemq:start <service>                          ```   | Start a previously stopped Vernemq service
-```vernemq:stop <service>                           ```   | Stop a running Vernemq service
-```vernemq:unexpose <service>                       ```   | Unexpose a previously exposed Vernemq service
-```vernemq:unlink <service> <app>                   ```   | Unlink the Vernemq service from the app
-
+```
+vernemq:add-user <service> [--create-flags...]      | Create a Vernemq user
+vernemq:create <service> [--create-flags...]        | create a Vernemq service
+vernemq:destroy <service> [-f|--force]              | delete the Vernemq service/data/container if there are no links left
+vernemq:enter <service>                             | enter or run a command in a running Vernemq service container
+vernemq:expose <service> <ports...>                 | expose a Vernemq service on custom port if provided (random port otherwise)
+vernemq:link <service> <app>                        | link the Vernemq service to the app
+vernemq:list                                        | list all Vernemq services
+vernemq:logs <service> [-t|--tail]                  | print the most recent log(s) for this service
+vernemq:remove-user <service> [--create-flags...]   | Remove a Vernemq user
+vernemq:restart <service>                           | graceful shutdown and restart of the Vernemq service container
+vernemq:start <service>                             | start a previously stopped Vernemq service
+vernemq:stop <service>                              | stop a running Vernemq service
+vernemq:unexpose <service>                          | unexpose a previously exposed Vernemq service
+vernemq:unlink <service> <app>                      | unlink the Vernemq service from the app
+```
 
 ## usage
 
