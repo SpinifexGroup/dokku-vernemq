@@ -1,4 +1,8 @@
-# dokku vernemq (beta) [![Build Status](https://travis-ci.org/SpinifexGroup/dokku-vernemq.svg?branch=master)](https://travis-ci.org/SpinifexGroup/dokku-vernemq)
+
+# dokku vernemq (beta) 
+
+[![Build Status](https://travis-ci.org/SpinifexGroup/dokku-vernemq.svg?branch=master)](https://travis-ci.org/SpinifexGroup/dokku-vernemq)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq?ref=badge_shield)
 
 Unofficial [VerneMQ MQTT Broker](https://vernemq.com/) plugin for [Dokku](http://dokku.viewdocs.io/dokku/). Uses latest version of the official [VerneMQ Docker Image](https://hub.docker.com/r/erlio/docker-vernemq/).
 
@@ -15,24 +19,22 @@ sudo dokku plugin:install https://github.com/SpinifexGroup/dokku-vernemq
 ```
 
 ## commands
-
-command  | description  
---|--
-```vernemq:add-user <service> [--create-flags...]   ```   | Create a Vernemq user
-```vernemq:create <service> [--create-flags...]     ```   | create a Vernemq service
-`vernemq:destroy <service> [-f\|--force]`              | delete the Vernemq service/data/container if there are no links left
-```vernemq:enter <service>                          ```   | enter or run a command in a running Vernemq service container
-```vernemq:expose <service> <ports...>              ```   | expose a Vernemq service on custom port if provided (random port otherwise)
-```vernemq:link <service> <app>                     ```   | link the Vernemq service to the app
-```vernemq:list                                     ```   | list all Vernemq services
-`vernemq:logs <service> [-t\|--tail]               `   | print the most recent log(s) for this service
-```vernemq:remove-user <service> [--create-flags...]```   | Remove a Vernemq user
-```vernemq:restart <service>                        ```   | graceful shutdown and restart of the Vernemq service container
-```vernemq:start <service>                          ```   | start a previously stopped Vernemq service
-```vernemq:stop <service>                           ```   | stop a running Vernemq service
-```vernemq:unexpose <service>                       ```   | unexpose a previously exposed Vernemq service
-```vernemq:unlink <service> <app>                   ```   | unlink the Vernemq service from the app
-
+```
+vernemq:add-user <service> [--create-flags...]      | Create a Vernemq user
+vernemq:create <service> [--create-flags...]        | create a Vernemq service
+vernemq:destroy <service> [-f|--force]              | delete the Vernemq service/data/container if there are no links left
+vernemq:enter <service>                             | enter or run a command in a running Vernemq service container
+vernemq:expose <service> <ports...>                 | expose a Vernemq service on custom port if provided (random port otherwise)
+vernemq:link <service> <app>                        | link the Vernemq service to the app
+vernemq:list                                        | list all Vernemq services
+vernemq:logs <service> [-t|--tail]                  | print the most recent log(s) for this service
+vernemq:remove-user <service> [--create-flags...]   | Remove a Vernemq user
+vernemq:restart <service>                           | graceful shutdown and restart of the Vernemq service container
+vernemq:start <service>                             | start a previously stopped Vernemq service
+vernemq:stop <service>                              | stop a running Vernemq service
+vernemq:unexpose <service>                          | unexpose a previously exposed Vernemq service
+vernemq:unlink <service> <app>                      | unlink the Vernemq service from the app
+```
 
 ## usage
 
@@ -104,7 +106,7 @@ dokku vernemq:logs lollipop -t # to tail
 dokku vernemq:destroy lollipop
 ```
 
-## Configuration
+## configuration
 
 The VerneMQ docker image allows for configuration of all variables [using environment variables during creation](https://github.com/erlio/docker-vernemq#vernemq-configuration)
 
@@ -115,7 +117,7 @@ can find the appropriate directory using the `info` command.
 dokku vernemq:info lollipop
 ```
 
-## Users
+## users
 
 The VerneMQ docker image enables authentication by default. As such, when a VerneMQ dokku service is created,
 a random username and password will be created and exported into the linked service as environment
@@ -124,5 +126,7 @@ variables. If you wish to add additional users, this can be managed through the 
 *NOTE* that removing a user will not immediately break connections from this user. The service will need to
 be restarted to break the connection, at which point the credentials will no longer be valid.
 
+
 ## License
-[MIT]('LICENSE')
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq?ref=badge_large)
+
