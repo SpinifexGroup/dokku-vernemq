@@ -1,6 +1,6 @@
 # dokku vernemq (beta) [![Build Status](https://travis-ci.org/SpinifexGroup/dokku-vernemq.svg?branch=master)](https://travis-ci.org/SpinifexGroup/dokku-vernemq)
 
-Unofficial [VerneMQ MQTT Broker](https://vernemq.com/) plugin for dokku. Uses latest version of the official [VerneMQ Docker Image](https://hub.docker.com/r/erlio/docker-vernemq/).
+Unofficial [VerneMQ MQTT Broker](https://vernemq.com/) plugin for [Dokku](http://dokku.viewdocs.io/dokku/). Uses latest version of the official [VerneMQ Docker Image](https://hub.docker.com/r/erlio/docker-vernemq/).
 
 ## requirements
 
@@ -79,6 +79,7 @@ dokku vernemq:link lolipop playground
 #   VERNEMQ_PORT=1883
 #   VERNEMQ_USER=username
 #   VERNEMQ_PASSWORD=password
+#   VERNEMQ_URL=tcp://username:password@vernemq-host-name:1883
 #
 # NOTE: The VerneMQ docker image enables password authentication by default.
 # Your application will need to use the provided username and password to
