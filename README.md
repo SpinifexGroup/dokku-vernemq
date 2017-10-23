@@ -1,5 +1,7 @@
 
-# dokku vernemq (beta) [![Build Status](https://travis-ci.org/SpinifexGroup/dokku-vernemq.svg?branch=master)](https://travis-ci.org/SpinifexGroup/dokku-vernemq)
+# dokku vernemq (beta) 
+
+[![Build Status](https://travis-ci.org/SpinifexGroup/dokku-vernemq.svg?branch=master)](https://travis-ci.org/SpinifexGroup/dokku-vernemq)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq?ref=badge_shield)
 
 Unofficial [VerneMQ MQTT Broker](https://vernemq.com/) plugin for [Dokku](http://dokku.viewdocs.io/dokku/). Uses latest version of the official [VerneMQ Docker Image](https://hub.docker.com/r/erlio/docker-vernemq/).
