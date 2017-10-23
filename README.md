@@ -1,5 +1,6 @@
-# dokku vernemq (beta) 
-[![Build Status](https://travis-ci.org/SpinifexGroup/dokku-vernemq.svg?branch=master)](https://travis-ci.org/SpinifexGroup/dokku-vernemq) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq?ref=badge_shield)
+
+# dokku vernemq (beta) [![Build Status](https://travis-ci.org/SpinifexGroup/dokku-vernemq.svg?branch=master)](https://travis-ci.org/SpinifexGroup/dokku-vernemq)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq?ref=badge_shield)
 
 Unofficial [VerneMQ MQTT Broker](https://vernemq.com/) plugin for [Dokku](http://dokku.viewdocs.io/dokku/). Uses latest version of the official [VerneMQ Docker Image](https://hub.docker.com/r/erlio/docker-vernemq/).
 
@@ -125,5 +126,7 @@ variables. If you wish to add additional users, this can be managed through the 
 *NOTE* that removing a user will not immediately break connections from this user. The service will need to
 be restarted to break the connection, at which point the credentials will no longer be valid.
 
-## license
-[MIT](LICENSE)
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FSpinifexGroup%2Fdokku-vernemq?ref=badge_large)
+
