@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export VERNEMQ_IMAGE=${VERNEMQ_IMAGE:="erlio/docker-vernemq"}
+export VERNEMQ_IMAGE=${VERNEMQ_IMAGE:="vernemq/vernemq"}
 export VERNEMQ_IMAGE_VERSION=${VERNEMQ_IMAGE_VERSION:="latest"}
 export VERNEMQ_ROOT=${VERNEMQ_ROOT:="/var/lib/dokku/services/vernemq"}
 
