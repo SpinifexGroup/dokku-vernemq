@@ -91,6 +91,9 @@ service_create_container() {
   docker cp $SERVICE_TEMPLATE_NAME:/etc/vernemq/. $SERVICE_ROOT/config &> /dev/null
   docker rm --force "$SERVICE_TEMPLATE_NAME" &> /dev/null
 
+  # setting correct UID and GUID for the mounted directories
+  docker run --rm -v "$SERVICE_ROOT/data:/data" -v "$SERVICE_ROOT/config:/config" busybox chown 10000:10000 -R /config /data
+
   ID=$(docker run --name "$SERVICE_NAME" -d --restart always -v "$SERVICE_ROOT/data:/var/lib/vernemq" -v "$SERVICE_ROOT/config:/etc/vernemq" --env-file="$SERVICE_ROOT/ENV" --label dokku=service --label dokku.service=vernemq "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
   echo "$ID" > "$SERVICE_ROOT/ID"
 
